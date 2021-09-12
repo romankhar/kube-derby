@@ -1,0 +1,194 @@
+<html>
+<head>
+<!-- Required includes -->
+<script src="coui://uiresources/js/crayta.js"></script>
+
+<style>
+
+body {
+	font-family: Rubik;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+.leaderboard-box {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.leaderboard {
+	width: 125rem;
+	font-size: 4rem;
+	color: white;
+	padding: 0.5rem;
+	margin-top: 5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.title-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	width: 90rem;
+	background: rgba(34, 34, 34, .4);
+	margin-bottom: 2rem;
+}
+
+.title-text {
+	font-size: 6rem;
+	padding: 1rem 10rem;
+}
+
+.empty-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	width: 50%;
+	margin-top: 22rem;
+	background-color: rgba(0, 0, 0, 0.5)
+}
+
+.empty-text {
+}
+
+.leaderboard-entry {
+	display: flex;
+	flex-direction: row;
+	margin-top: 1rem;
+	height: 5rem;
+	background: linear-gradient(45deg, transparent 0, transparent 4rem, rgba(0, 0, 0, 0.5) 4rem, rgba(0, 0, 0, 0.5) 88rem, transparent 88rem);
+}	
+
+.leaderboard-local {
+	background: linear-gradient(45deg, transparent 0, transparent 4rem, rgba(255, 255, 255, 0.8) 4rem, rgba(255, 255, 255, 0.8) 88rem, transparent 88rem);
+	color: black;
+}
+ 
+.rank-text {
+	width: 10rem;
+	margin-left: 7rem;
+}
+
+.icon {
+	width: 4rem;
+	height: 4rem;
+	margin-right: 1rem;
+	margin-top: 0.5rem;
+	background-size: cover;
+}
+
+.name-text {
+	width: 65rem;
+	text-transform: uppercase;
+}
+
+.leaderboard-entry-right {
+	width: 37rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;	
+	background: linear-gradient(45deg, transparent 0rem, transparent 5rem, red 5rem, red 26rem, transparent 26rem);
+	color: white;
+}
+
+.score-text {
+	margin-right: 7rem;
+}
+
+.reset {
+	position: absolute;
+	top: 76.5rem;
+	left: 25%;
+	width: 50%;
+	margin-top: 2rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.5)
+}
+
+.leaderboard-reset-text {
+	padding-right: 1.5rem;
+}
+
+</style>
+</head>
+
+<body>
+	
+	<div class="leaderboard-box">
+		<div class="leaderboard">
+			<div class="title-row">
+				<span class="title-text" data-bind-value="{{leaderboard.title}}"></span>
+			</div>
+			<div class="leaderboard-entry" data-bind-class-toggle="leaderboard-local:{{entry.isLocal}}" data-bind-for="entry:{{leaderboard.entries}}">
+		    	<span class="rank-text" data-bind-value="{{entry}}.rank"></span>
+		    	<div data-bind-style-background-image-url="getIcon({{entry}}.icon)" class="icon"></div>
+		    	<span class="name-text" data-bind-value="{{entry}}.name"></span>
+		    	<div class="leaderboard-entry-right">
+		    		<span class="score-text" data-bind-value="{{entry}}.score"></span>
+		    	</div>
+			</div>
+			<div data-bind-if="!{{leaderboard.entries}}.length" class="empty-row">
+				<span class="empty-text" data-bind-value="{{leaderboard.noEntriesMsg}}"></span>
+			</div>
+			<div class="reset" data-bind-if="{{leaderboard.isPeriodic}}">
+				<span class="leaderboard-reset-text" data-bind-value="{{leaderboard.resetMsg}}"></span>
+				<span class="leaderboard-reset-value" data-bind-value="{{leaderboard.resetValue}}"></span>
+			</div>
+		</div>
+	</div>
+	  
+<script>
+
+	engine.createJSModel('leaderboard', {
+
+		title: "leaderboard",		
+		isPeriodic: true,
+		resetMsg: "resets in",
+		resetValue: "<20h",
+		entriesX: [],
+		entries: [
+			{
+				rank: 1,
+				name: "Player A",
+				icon: '',
+				score: '99:99.000',
+				isLocal: true,
+			},
+			{
+				rank: 2,
+				name: "Player B",
+				icon: '',
+				score: 1000,
+				isLocal: false,
+			},
+			{
+				rank: 9999,
+				name: "Player C",
+				icon: '',
+				score: 10,
+				isLocal: false,
+			},
+		],
+		
+		noEntriesMsg: "no entries",
+	});
+  
+  
+  </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<html>
+  <head>
+    <!-- Required includes -->
+    <script src="coui://uiresources/js/crayta.js"></script>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .center {
+        justify-content: center;
+      }
+
+      .google-title {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 500;
+      }
+
+      .google-e {
+        transform: rotate(90);
+      }
+
+      .bg-white {
+        background: #ffffff;
+        color: #000000;
+      }
+      .bg-grey {
+        background: #e8eaed;
+        color: #000000;
+      }
+      .bg-red {
+        background: #d93025;
+        color: #ffffff;
+      }
+      .bg-green {
+        background: #1e8e3e;
+        color: #ffffff;
+      }
+      .bg-blue {
+        background: #1a73e8;
+        color: #ffffff;
+      }
+      .bg-yellow {
+        background: #f9ab00;
+        color: #ffffff;
+      }
+      .bg-orange {
+        background: #e8710a;
+        color: #ffffff;
+      }
+      .bg-pink {
+        background: #e52592;
+        color: #ffffff;
+      }
+      .bg-purple {
+        background: #9334e6;
+        color: #ffffff;
+      }
+      .bg-cyan {
+        background: #12b5cb;
+        color: #ffffff;
+      }
+
+      .red {
+        color: #d93025;
+      }
+      .green {
+        color: #1e8e3e;
+      }
+      .blue {
+        color: #1a73e8;
+      }
+      .yellow {
+        color: #f9ab00;
+      }
+
+      .modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .modal-content {
+        width: 75%;
+        font-size: 2rem;
+        background: #ffffff;
+        color: #000000;
+        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+          0 1px 3px 1px rgba(60, 64, 67, 0.149);
+      }
+
+      .modal-header {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1.25rem;
+      }
+
+      .modal-header .title {
+        flex-grow: 1;
+        align-items: center;
+        text-align: center;
+        font-weight: bold;
+        font-size: 2.5rem;
+      }
+
+      .modal-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-grow: 1;
+        margin-bottom: 1rem;
+      }
+
+      .modal-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .row-text {
+        flex-grow: 1;
+      }
+
+      .help-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background: #000000;
+        color: #ffffff;
+        font-size: 1.25rem;
+        padding: 0.25rem 1rem;
+      }
+
+      .success-row,
+      .error-row {
+        flex-grow: 1;
+        padding: 0.25rem 1rem;
+        text-align: center;
+        border-radius: 1rem;
+      }
+
+      .chip {
+        height: 3rem;
+        width: 3rem;
+        line-height: 3rem;
+        border-radius: 50%;
+        text-align: center;
+      }
+
+      .chip.small {
+        height: 1.75rem;
+        width: 1.75rem;
+        line-height: 1.75rem;
+      }
+
+      .question {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+      }
+
+      .margin-right {
+        margin-right: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="modal">
+      <div class="modal-content">
+        <div class="modal-header center">
+          <div class="title">Quiz</div>
+        </div>
+        <div class="modal-row">
+          <div
+            class="question bg-grey"
+            data-bind-value="{{quizModel.question}}"
+          ></div>
+        </div>
+        <div class="modal-row center" data-bind-if="{{quizModel.passed}}">
+          <div class="success-row bg-green">Correct!</div>
+        </div>
+        <div
+          class="modal-row center"
+          data-bind-if="!{{quizModel.passed}} && {{quizModel.errors}} > 0"
+        >
+          <div class="error-row bg-red">
+            Incorrect. You have&nbsp;<span
+              data-bind-value="{{quizModel.remaining}}"
+            ></span
+            >&nbsp;attempt(s) remaining.
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="chip margin-right bg-blue" data-bind-value="{{quizModel.keys.extra1}}"></div>
+          <div class="row-text" data-bind-value="{{quizModel.a1}}"></div>
+        </div>
+        <div class="modal-row">
+          <div class="chip margin-right bg-red" data-bind-value="{{quizModel.keys.extra2}}"></div>
+          <div class="row-text" data-bind-value="{{quizModel.a2}}"></div>
+        </div>
+        <div class="modal-row">
+          <div class="chip margin-right bg-yellow" data-bind-value="{{quizModel.keys.extra3}}"></div>
+          <div class="row-text" data-bind-value="{{quizModel.a3}}"></div>
+        </div>
+        <div class="modal-row">
+          <div class="chip margin-right bg-green" data-bind-value="{{quizModel.keys.extra4}}"></div>
+          <div class="row-text" data-bind-value="{{quizModel.a4}}"></div>
+        </div>
+        <div class="modal-row">
+          <div class="chip margin-right bg-orange" data-bind-value="{{quizModel.keys.extra5}}"></div>
+          <div class="row-text" data-bind-value="{{quizModel.a5}}"></div>
+        </div>
+        <div class="modal-row center">
+          <div class="help-row">
+            <div>Press&nbsp;</div>
+            <div class="chip small bg-white" data-bind-value="{{quizModel.keys.previous}}"></div>
+            <div>&nbsp;to close</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      engine.createJSModel("quizModel", {
+        question:
+          "Your quiz question goes here and it may take several long lines of text across your wonderful screen taking even more space for lopng questions",
+        a1: "quiz answer one",
+        a2: "q2",
+        a3: "q3",
+        a4: "q4",
+        a5: "q5",
+        errors: 0,
+        remaining: 0,
+        passed: false,
+        keys: {
+          primary: "",
+		  secondary: "",
+		  extra1: "",
+		  extra2: "",
+		  extra3: "",
+		  extra4: "",
+		  extra5: "",
+		  jump: "",
+		  interact: "",
+		  crouch: "",
+		  sprint: "",
+		  previous: "",
+		  next: "",
+        }
+      });
+
+      /*
+       * You can manipulate model data from Lua either through a Coherent function:
+       * e.g. self:GetEntity().exampleWidget.js:CallFunction("exampleCoherentFunction", "Some new text")
+       *
+       * or directly, via:
+       * self:GetEntity().exampleWidget.js.data = 23
+       */
+      engine.on("updateScreen", function (input) {
+        quizModel.question = input.question;
+        quizModel.a1 = input.answer1;
+        quizModel.a2 = input.answer2;
+        quizModel.a3 = input.answer3;
+        quizModel.a4 = input.answer4;
+        quizModel.a5 = input.answer5;
+        quizModel.errors = input.errors || 0;
+        quizModel.remaining = 4 - quizModel.errors;
+        quizModel.passed = input.passed || false;
+        
+        quizModel.keys = input.keys;
+        
+        engine.updateWholeModel(quizModel);
+        engine.synchronizeModels();
+      });
+    </script>
+  </body>
+</html>

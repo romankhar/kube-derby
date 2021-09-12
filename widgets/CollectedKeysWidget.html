@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <!-- Required includes -->
+        <script type="text/javascript" src="coui://uiresources/js/crayta.js"></script>
+
+        <style type="text/css">
+                .outer-box {
+			        width: 12%;
+			        margin: 0%;
+			        padding: 1%;
+			        border-radius: 1%;
+			        background-color: rgba(255,255,255,0.5);
+			        color: dimgrey;
+			    }
+			    
+			    .header-row{
+			        font: 1.1vw bold italic sans-serif;
+			        position: relative;
+			        display: block;
+			        text-align: center;
+			        margin-top: 5%;
+			    }
+
+			    .score-row{
+			        font: 1.1vw bold italic sans-serif;
+			        text-align: center;
+			        color: red;
+			    }
+
+			    .score-right{
+			        color: black;
+			    }
+
+			    .points{
+			        color: red;
+			    }
+			    
+			    .assignment-text{
+			        font: bold italic 1vw sans-serif;
+			        color: black;
+			    }
+
+			    .collectable-item{
+			        font: bold italic 1vw sans-serif;
+			        text-align: center;
+			        color: red;
+			    }
+
+			    .empty-inventory{
+			        font: bold italic 1vw sans-serif;
+			        text-align: center;
+			        color: black;
+			    }
+			    
+        </style>
+    </head>
+
+    <body>
+        <div class="outer-box">
+        	<div class="header-row">Score</div>
+            <div class="score-row">
+            	<span>
+            		<span data-bind-value="{{dataModel}}.score"></span>
+            		<span class="score-right">&nbsp;of&nbsp;<span data-bind-value="{{dataModel}}.maxScore"></span>
+            		</span>
+                </span>
+            </div>
+
+            <div class="header-row">Progress</div>
+            <div class="score-row">
+         		<span>
+         			<span data-bind-value="{{dataModel}}.progress"></span>
+         			&#37;
+         		</span>
+            </div>
+
+        	<div class="header-row">Quizes</div>
+            <div class="score-row">
+            	<span>
+            		<span data-bind-value="{{dataModel}}.quizesPassed"></span>
+            		<span class="score-right">&nbsp;of&nbsp;<span data-bind-value="{{dataModel}}.quizesTotal"></span>
+            		</span>
+                </span>
+            </div>
+
+			<div data-bind-if="{{dataModel.keys}}.length > 0">
+				<div class="header-row">Inventory</div>
+	            <div data-bind-for="item:{{dataModel.keys}}" class="collectable-item">
+	                 <div data-bind-value="{{item}}.name"></div>
+				</div>
+			</div>
+
+            <div class="header-row">Task</div>
+            <div class="score-row">
+				<div data-bind-value="{{dataModel}}.currentAssignment" class="assignment-text"></div>
+            </div>
+        </div>
+        
+        <script>
+	        engine.createJSModel('dataModel',
+	        {
+	            score: 0,
+	            maxScore: 0,
+	            quizesPassed: 0,
+	            quizesTotal: 0,
+	            currentAssignment: "Some assignment.",
+	            progress: 0,
+				keys: []
+	            //keys: [{name: "Test Key"}]
+	        });
+	        
+	        engine.on("collected", function(collectableName, playerScore, quizes, assignments, currentAssignment) {
+	        	//console.log("Collected keys: Updating item in JavaScript")
+	            dataModel.score = playerScore // Current player score
+	            dataModel.maxScore = assignments.totalPoints + quizes.totalPoints
+	            dataModel.quizesPassed = quizes.passed
+	            dataModel.quizesTotal = quizes.total
+	            dataModel.progress = Math.ceil(100*assignments.passed / assignments.size)
+	            dataModel.currentAssignment = currentAssignment
+	            if (collectableName != "") {
+		            dataModel.keys.push({
+		                index: dataModel.keys.length + 1,
+		                name: collectableName
+		            });
+	            }
+	            engine.updateWholeModel(dataModel);
+	            engine.synchronizeModels();
+	        });
+	        
+        </script>
+    </body>
+</html>

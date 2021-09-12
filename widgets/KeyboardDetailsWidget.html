@@ -1,0 +1,210 @@
+<html>
+  <head>
+    <!-- Required includes -->
+    <script src="coui://uiresources/js/crayta.js"></script>
+    <style>
+      .container {
+        font-family: Arial, Helvetica, sans-serif;
+        position: absolute;
+        top: 100vh;
+        left: 0;
+        transform: translate(0, -100%);
+        width: 12%;
+
+        display: flex;
+        flex-direction: column;
+        //background-color: rgba(255, 255, 255, 0.5);
+        color: #000000;
+        text-align: center;
+
+        padding: 0.25rem 0;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-grow: 1;
+      }
+
+      .margin-right {
+        margin-right: 1rem;
+      }
+
+      .margin-left {
+        margin-left: 1rem;
+      }
+
+      .key-text {
+        font-size: 0.85rem;
+        padding: 0.2rem 0.5rem;
+      }
+
+      .key-box .key-icon {
+        height: 2rem;
+        width: 2rem;
+        line-height: 2rem;
+        border-radius: 0.2rem;
+        background: #ffffff;
+        color: #000000;
+      }
+
+      .key-box-wide .key-icon {
+        height: 1.3rem;
+        line-height: 1.3rem;
+        border-radius: 0.2rem;
+        background: #ffffff;
+        color: #000000;
+        padding: 0 0.5rem;
+      }
+
+      .key-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 4rem;
+        width: 4.5rem;
+        text-align: center;
+      }
+
+      .key-box-wide {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 2rem;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+    
+      <div class="row">
+        <div class="key-box">
+          <div class="key-icon" data-bind-value="{{model.keys.interact}}"></div>
+          <div class="key-text">Interact</div>
+        </div>
+        <!-- We do not need CLOSE key as it is shown in every dialog
+        <div class="key-box">
+          <div class="key-icon" data-bind-value="{{model.keys.previous}}"></div>
+          <div class="key-text">Close</div>
+        </div>
+        -->
+        <div class="key-box">
+          <div class="key-icon" data-bind-value="{{model.keys.next}}"></div>
+          <div class="key-text">Help</div>
+        </div>
+      </div>
+      
+      <!--
+      <div class="row">
+        <div class="key-box">
+          <div class="key-icon" data-bind-value="{{model.keys.jump}}"></div>
+          <div class="key-text">Jump</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon" data-bind-value="{{model.keys.crouch}}"></div>
+          <div class="key-text">Crouch</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon" data-bind-value="{{model.keys.sprint}}"></div>
+          <div class="key-text">Sprint</div>
+        </div>
+      </div>
+      -->
+      
+      <!--
+      <div class="row">
+        <div class="key-box">&nbsp;</div>
+        <div class="key-box">
+          <div class="key-icon">W</div>
+          <div class="key-text">Forward</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon">E</div>
+          <div class="key-text">Interact</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="key-box">
+          <div class="key-icon">A</div>
+          <div class="key-text">Left</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon">S</div>
+          <div class="key-text">Backward</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon">D</div>
+          <div class="key-text">Right</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="key-box">
+          <div class="key-icon">Z</div>
+          <div class="key-text">Close</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon">X</div>
+          <div class="key-text">Help</div>
+        </div>
+        <div class="key-box">
+          <div class="key-icon">C</div>
+          <div class="key-text">Crouch</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="key-box-wide">
+          <div class="key-icon margin-left margin-right">Mouse</div>
+          <div class="key-text">Look</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="key-box-wide">
+          <div class="key-icon margin-left margin-right">Space</div>
+          <div class="key-text">Jump</div>
+        </div>
+      </div>
+      -->
+    </div>
+    <script>  
+      engine.createJSModel("model", {
+	    keys: {
+	      primary: "",
+		  secondary: "",
+		  extra1: "",
+		  extra2: "",
+		  extra3: "",
+		  extra4: "",
+		  extra5: "",
+		  jump: "",
+		  interact: "",
+		  crouch: "",
+		  sprint: "",
+		  previous: "",
+		  next: "",
+		}
+      });
+
+      /*
+       * You can manipulate model data from Lua either through a Coherent function:
+       * e.g. self:GetEntity().exampleWidget.js:CallFunction("exampleCoherentFunction", "Some new text")
+       *
+       * or directly, via:
+       * self:GetEntity().exampleWidget.js.data = 23
+       */
+      engine.on("setKeyIcons", function (input) {        
+        model.keys = input
+        
+        engine.updateWholeModel(model);
+        engine.synchronizeModels();
+      });
+    </script>
+  </body>
+</html>

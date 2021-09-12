@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <!-- Required includes -->
+    <script src="coui://uiresources/js/crayta.js"></script>
+
+    <style>
+      body {
+        font-family: Rubik;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .cluster {
+        font-size: 4rem;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .title-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .title-text {
+        font-size: 16rem;
+        padding: 1rem 10rem;
+      }
+
+      .container-instances-title {
+        font-size: 6rem;
+        padding: 1rem 10rem;
+      }
+
+      .empty-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 60rem;
+        margin-top: 22rem;
+      }
+
+      .empty-text {
+        padding: 1rem 10rem;
+      }
+
+      .cluster-entry {
+        display: flex;
+        flex-direction: row;
+        margin-top: 1rem;
+        height: 5rem;
+        background: linear-gradient(
+          45deg,
+          transparent 0,
+          transparent 4rem,
+          rgba(0, 0, 0, 0.5) 4rem,
+          rgba(0, 0, 0, 0.5) 48rem,
+          transparent 48rem
+        );
+      }
+
+      .tag-text {
+        width: 40rem;
+        margin-left: 7rem;
+      }
+
+      .cluster-entry-right {
+        width: 67rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        background: linear-gradient(
+          45deg,
+          transparent 0rem,
+          transparent 5rem,
+          red 5rem,
+          red 46rem,
+          transparent 46rem
+        );
+      }
+
+      .service-entry-right {
+        width: 27rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        background: linear-gradient(
+          45deg,
+          transparent 0rem,
+          transparent 5rem,
+          blue 5rem,
+          blue 18rem,
+          transparent 18rem
+        );
+      }
+
+      .value-text {
+        margin-right: 8rem;
+      }
+    </style>
+  </head>
+
+  <body>
+      <div class="cluster">
+        <div class="title-row">
+          <span
+            class="title-text"
+            data-bind-value="{{cluster.title}}"
+          ></span>
+        </div>
+        <div
+          class="cluster-entry">
+          <span class="tag-text">Cluster name</span>
+          <div class="cluster-entry-right">
+            <span class="value-text" data-bind-value="{{cluster.info.name}}"></span>
+          </div>
+        </div>   
+        <div
+          class="cluster-entry">
+          <span class="tag-text">Project</span>
+          <div class="cluster-entry-right">
+            <span class="value-text" data-bind-value="{{cluster.info.project}}"></span>
+          </div>
+        </div>   
+        <div
+          class="cluster-entry">
+          <span class="tag-text">Region</span>
+          <div class="cluster-entry-right">
+            <span class="value-text" data-bind-value="{{cluster.info.region}}"></span>
+          </div>
+        </div>   
+        <div
+          class="cluster-entry">
+          <span class="tag-text">Number of nodes</span>
+          <div class="cluster-entry-right">
+            <span class="value-text" data-bind-value="{{cluster.info.numServers}}"></span>
+          </div>
+       </div>   
+        <div class="title-row">
+          <span
+            class="container-instances-title">Container instances</span>
+        </div>
+	   <div
+          class="cluster-entry"
+          data-bind-for="entry:{{cluster.services}}">
+          <span class="tag-text" data-bind-value="{{entry}}.name"></span>
+          <!--
+          <span class="tag-text" data-bind-value="{{entry}}.secure"></span>
+          -->
+          <div class="service-entry-right">
+            <span class="value-text" data-bind-value="{{entry}}.numContainers"></span>
+          </div>
+        </div>
+        
+        <div data-bind-if="!{{cluster.services}}.length" class="empty-row">
+          <span
+            class="empty-text"
+            data-bind-value="{{cluster.noEntriesMsg}}"
+          ></span>
+        </div>
+      </div>
+
+    <script>
+      engine.createJSModel("cluster", {
+        title: "GKE CLUSTER",
+        info: {
+	        project: "unknown",
+	        name: "unknown",
+	        numServers: 0,
+			region: "unknown"
+		},
+        services: [
+          {
+            name: "unknown",
+            numContainers: 0,
+			secure: "unknown"
+          },
+        ],
+
+        noEntriesMsg: "Opps, where is my cluster?!",
+      });
+      
+      /*
+      * You can manipulate model data from Lua either through a Coherent function:
+      * e.g. self:GetEntity().exampleWidget.js:CallFunction("exampleCoherentFunction", "Some new text")
+      * 
+      * or directly, via:
+      * self:GetEntity().exampleWidget.js.data = 23
+      */
+      engine.on("updateScreen", function(input) {
+        cluster.info = input.info
+        cluster.services = input.services
+        engine.updateWholeModel(cluster);
+        engine.synchronizeModels();
+      });      
+    </script>
+  </body>
+</html>

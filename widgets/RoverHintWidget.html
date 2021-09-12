@@ -1,0 +1,403 @@
+<html>
+  <head>
+    <script src="coui://uiresources/js/crayta.js"></script>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .center {
+        justify-content: center;
+      }
+
+      .modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .modal-content {
+        width: 75%;
+        font-size: 2rem;
+        background: #ffffff;
+        color: #000000;
+        padding: 1rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+          0 1px 3px 1px rgba(60, 64, 67, 0.149);
+      }
+
+      .modal-header {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1.25rem;
+      }
+
+      .modal-header .title {
+        flex-grow: 1;
+        align-items: center;
+        text-align: center;
+        font-weight: bold;
+        font-size: 2.5rem;
+      }
+
+      .modal-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-grow: 1;
+        margin-bottom: 1rem;
+      }
+
+      .modal-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .crossword-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        text-align: center;
+        padding: 0.2rem 0.5rem;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        width: 30%;
+        border-radius: 1.5rem;
+      }
+
+      .square {
+        height: 2rem;
+        width: 2rem;
+        line-height: 2rem;
+        border-radius: 50%;
+      }
+
+      .white {
+        background: #ffffff;
+        color: #000000;
+      }
+
+      .black {
+        background: #000000;
+        color: #ffffff;
+      }
+
+      .blue {
+        background: #1a73e8;
+        color: #ffffff;
+      }
+
+      .red {
+        background: #d93025;
+        color: #ffffff;
+      }
+
+      .yellow {
+        background: #f9ab00;
+        color: #ffffff;
+      }
+
+      .green {
+        background: #1e8e3e;
+        color: #ffffff;
+      }
+
+      .orange {
+        background: #e8710a;
+        color: #ffffff;
+      }
+
+      .hint {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 1.5rem;
+        word-break: break-word;
+        margin-left: 2rem;
+      }
+
+      .help-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background: #000000;
+        color: #ffffff;
+        font-size: 1.25rem;
+        padding: 0.25rem 1rem;
+      }
+      
+      .error{
+        color: #d93025;
+      }
+
+      .chip {
+        height: 3rem;
+        width: 3rem;
+        line-height: 3rem;
+        border-radius: 50%;
+        text-align: center;
+      }
+
+      .chip.small {
+        height: 1.75rem;
+        width: 1.75rem;
+        line-height: 1.75rem;
+      }
+
+      .spacer {
+        width: 10rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="modal">
+      <div class="modal-content">
+        <div class="modal-header center">
+          <div class="title">GCR Door Key Hint Puzzle</div>
+        </div>
+
+        <div class="modal-row">Solve the puzzle for a hint that you can follow to the GCR key!</div>
+
+        <div class="modal-row error">Revealing letters will reduce your score by 5 points for each reveal!</div>
+        
+        <div class="modal-row">
+          <div class="crossword-row blue">
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">K</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">U</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">B</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">E</span>
+            </div>
+            <div class="square black">
+              <span data-bind-if="{{model.stage4}}">R</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">N</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">E</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">T</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">E</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">S</span>
+            </div>
+          </div>
+          <div class="hint">Open source container orchestration framework</div>
+        </div>
+
+        <div class="modal-row">
+          <div class="crossword-row red">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square black">
+              <span data-bind-if="{{model.stage4}}">O</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">A</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">U</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">T</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">H</span>
+            </div>
+            <div class="square"></div>
+          </div>
+          <div class="hint">Popular authentication protocol</div>
+        </div>
+
+        <div class="modal-row">
+          <div class="crossword-row green">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square black">
+              <span data-bind-if="{{model.stage4}}">V</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">O</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">L</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">U</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">M</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">E</span>
+            </div>
+          </div>
+          <div class="hint">Mounted by a container</div>
+        </div>
+
+        <div class="modal-row">
+          <div class="crossword-row yellow">
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">I</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">N</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">G</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">R</span>
+            </div>
+            <div class="square black">
+              <span data-bind-if="{{model.stage4}}">E</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">S</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">S</span>
+            </div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+          </div>
+          <div class="hint">
+            Kubernetes resource for inbound traffic management
+          </div>
+        </div>
+
+        <div class="modal-row">
+          <div class="crossword-row orange">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square black">
+              <span data-bind-if="{{model.stage4}}">R</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage2}}">B</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage3}}">A</span>
+            </div>
+            <div class="square white">
+              <span data-bind-if="{{model.stage1}}">C</span>
+            </div>
+            <div class="square"></div>
+            <div class="square"></div>
+          </div>
+          <div class="hint">Kubernetes access control framework (acronym)</div>
+        </div>
+
+        <div class="modal-row center">
+          <div class="help-row">
+            <div>Press&nbsp;</div>
+            <div
+              class="chip small white"
+              data-bind-value="{{model.keys.next}}"
+            ></div>
+            <div>&nbsp;to reveal letters</div>
+          </div>
+          <div class="spacer"></div>
+          <div class="help-row">
+            <div>Press&nbsp;</div>
+            <div
+              class="chip small white"
+              data-bind-value="{{model.keys.previous}}"
+            ></div>
+            <div>&nbsp;to close</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      engine.createJSModel("model", {
+        stage: 0,
+        stage1: false,
+        stage2: false,
+        stage3: false,
+        stage4: false,
+        keys: {
+          primary: "",
+          secondary: "",
+          extra1: "",
+          extra2: "",
+          extra3: "",
+          extra4: "",
+          extra5: "",
+          jump: "",
+          interact: "",
+          crouch: "",
+          sprint: "",
+          previous: "",
+          next: "",
+        },
+      });
+
+      engine.on("increaseStage", function () {
+        model.stage++;
+        switch (model.stage) {
+          case 1:
+            model.stage1 = true;
+            break;
+          case 2:
+            model.stage2 = true;
+            break;
+          case 3:
+            model.stage3 = true;
+            break;
+          case 4:
+            model.stage4 = true;
+            break;
+          default:
+            break;
+        }
+
+        engine.updateWholeModel(model);
+        engine.synchronizeModels();
+      });
+
+      engine.on("setKeyIcons", function (inputKeys) {
+        model.keys = inputKeys;
+        engine.updateWholeModel(model);
+        engine.synchronizeModels();
+      });
+    </script>
+  </body>
+</html>
